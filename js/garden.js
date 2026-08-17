@@ -63,10 +63,10 @@
 	        render: function () {
 	            if (this.r <= this.bloom.r) {
 	                this.r += this.growFactor; // / 10;
-	                this.draw();
 	            } else {
 	                this.isfinished = true;
 	            }
+	            this.draw();
 	        }
 	    }
 
@@ -91,9 +91,6 @@
 	                isfinished *= p.isfinished;
 	            }
 	            this.garden.ctx.restore();
-	            if (isfinished == true) {
-	                this.garden.removeBloom(this);
-	            }
 	        },
 	        init: function () {
 	            var angle = 360 / this.pc;
@@ -111,6 +108,7 @@
 	    }
 	    Garden.prototype = {
 	        render: function () {
+	            this.ctx.clearRect(0, 0, this.element.width, this.element.height);
 	            for (var i = 0; i < this.blooms.length; i++) {
 	                this.blooms[i].draw();
 	            }
@@ -187,13 +185,8 @@
 	        return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
 	    };
 	    Garden.randomrgba = function (rmin, rmax, gmin, gmax, bmin, bmax, a) {
-			var r = Math.round(Garden.random(rmin, rmax));
-			var g = Math.round(Garden.random(gmin, gmax));
-			var b = Math.round(Garden.random(bmin, bmax));
-			var limit = 5;
-			if (Math.abs(r - g) <= limit && Math.abs(g - b) <= limit && Math.abs(b - r) <= limit) {
-				return Garden.rgba(rmin, rmax, gmin, gmax, bmin, bmax, a);
-			} else {
-				return Garden.rgba(r, g, b, a);
-			}
+	    	var r = Math.round(Garden.random(rmin, rmax));
+	    	var g = Math.round(Garden.random(gmin, gmax));
+	    	var b = Math.round(Garden.random(bmin, bmax));
+	    	return Garden.rgba(r, g, b, a);
 	    };
